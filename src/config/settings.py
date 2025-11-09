@@ -36,7 +36,6 @@ class Settings(BaseSettings):
     LOG_FILE: str = Field('logs/app.log')
     MAX_FILE_SIZE: int = Field(10 * 1024 * 1024)  # 10MB
     BACKUP_COUNT: int = Field(5)
-    ENABLE_JSON_LOGGING: bool = Field(False)
     
     @property
     def logging_config(self) -> dict:
@@ -49,7 +48,6 @@ class Settings(BaseSettings):
             log_file=self.LOG_FILE,
             max_file_size=self.MAX_FILE_SIZE,
             backup_count=self.BACKUP_COUNT,
-            enable_json_logging=self.ENABLE_JSON_LOGGING,
         )
 
     @property
@@ -73,3 +71,7 @@ class Settings(BaseSettings):
         return 'postgresql+asyncpg://{user}:{password}@{host}:{port}/{database}'.format(
             **self.database_settings,
         )
+
+
+def get_settings() -> Settings:
+    return Settings()
